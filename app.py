@@ -45,33 +45,32 @@ neighborhood = st.selectbox("Neighborhood",options=["CollgCr", "Veenker", "Crawf
 
 # When the user clicks the Predict button
 if st.button("Predict Sale Price"):
-  if model_choice == "Essential Features Model":
-    # Build a DataFrame from the essential features only
-    input_data = pd.DataFrame({
-      'Age': [age],
-      'Gr Liv Area': [gr_liv_area],
-      'Lot Area': [lot_area],
-      'Overall Qual': [overall_qual],
-      'Neighborhood': [neighborhood]
-})
-# Preprocess input using the selected-features preprocessor
-processed_data = preprocessor_selected.transform(input_data)
-# Get prediction from the essential-features model
-prediction = model_selected.predict(processed_data)
-st.success(f"Predicted Sale Price (Essential Model): ${prediction[0]
-[0]:,.2f}")
+    if model_choice == "Essential Features Model":
+        # Build a DataFrame from the essential features only
+        input_data = pd.DataFrame({
+            'Age': [age],
+            'Gr Liv Area': [gr_liv_area],
+            'Lot Area': [lot_area],
+            'Overall Qual': [overall_qual],
+            'Neighborhood': [neighborhood]
+        })
+        # Preprocess input using the selected-features preprocessor
+        processed_data = preprocessor_selected.transform(input_data)
+        # Get prediction from the essential-features model
+        prediction = model_selected.predict(processed_data)
+        st.success(f"Predicted Sale Price (Essential Model): ${prediction[0][0]:,.2f}")
+    else:
+        # This is the correct indentation for the else block
+        default_all = pd.read_csv('default_all_features.csv', index_col=0)
+        # Now, 'default_all' contains all the features expected by the preprocessor.
+        # Overwrite the essential features with user inputs
+        default_all.loc[0, 'Age'] = age
+        default_all.loc[0, 'Gr Liv Area'] = gr_liv_area
+        default_all.loc[0, 'Lot Area'] = lot_area
+        default_all.loc[0, 'Overall Qual'] = overall_qual
+        default_all.loc[0, 'Neighborhood'] = neighborhood
+        
+        processed_data = preprocessor_all.transform(default_all)
+        prediction = model_all.predict(processed_data)
+        st.success(f"Predicted Sale Price (All Features Model): ${prediction[0][0]:,.2f}")
 
-  else:
-  default_all = pd.read_csv('default_all_features.csv', index_col=0)
-  # Now, 'default_all' contains all the features expected by thepreprocessor.
-  # Overwrite the essential features with user inputs
-  default_all.loc[0, 'Age'] = age
-  default_all.loc[0, 'Gr Liv Area'] = gr_liv_area
-  default_all.loc[0, 'Lot Area'] = lot_area
-  default_all.loc[0, 'Overall Qual'] = overall_qual
-  default_all.loc[0, 'Neighborhood'] = neighborhood
-  
-  processed_data = preprocessor_all.transform(default_all)
-  prediction = model_all.predict(processed_data)
-  st.success(f"Predicted Sale Price (All Features Model): ${prediction[0]
-[0]:,.2f}")

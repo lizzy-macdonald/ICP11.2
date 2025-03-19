@@ -61,7 +61,7 @@ prediction = model_selected.predict(processed_data)
 st.success(f"Predicted Sale Price (Essential Model): ${prediction[0]
 [0]:,.2f}")
 
-else:
+  else:
   default_all = pd.read_csv('default_all_features.csv', index_col=0)
   # Now, 'default_all' contains all the features expected by thepreprocessor.
   # Overwrite the essential features with user inputs

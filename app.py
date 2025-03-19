@@ -46,13 +46,13 @@ neighborhood = st.selectbox("Neighborhood",options=["CollgCr", "Veenker", "Crawf
 # When the user clicks the Predict button
 if st.button("Predict Sale Price"):
   if model_choice == "Essential Features Model":
-  # Build a DataFrame from the essential features only
-  input_data = pd.DataFrame({
-    'Age': [age],
-    'Gr Liv Area': [gr_liv_area],
-    'Lot Area': [lot_area],
-    'Overall Qual': [overall_qual],
-    'Neighborhood': [neighborhood]
+    # Build a DataFrame from the essential features only
+    input_data = pd.DataFrame({
+      'Age': [age],
+      'Gr Liv Area': [gr_liv_area],
+      'Lot Area': [lot_area],
+      'Overall Qual': [overall_qual],
+      'Neighborhood': [neighborhood]
 })
 # Preprocess input using the selected-features preprocessor
 processed_data = preprocessor_selected.transform(input_data)
